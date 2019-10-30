@@ -2,7 +2,8 @@ import React from 'react';
 import {Main} from './main';
 
 //Movimentos de Cubo Mágico
-const moves = ["R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2"];
+ const moves = ["R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2"];
+
 
 export class Scrambler extends React.Component {
     constructor(props) {
@@ -33,13 +34,12 @@ export class Scrambler extends React.Component {
 
     //Lidar com o click fazendo aparecer um embalhamento
     handleClick() {
-        const embalhamento = this.state.embaralhado;  
+        let embalhamento = this.state.embaralhado;  
 
         for (let i = 1; i <= this.state.nScram; i++) {
             this.scramble(this.state.nMoves);
             document.getElementById('baralhos').innerHTML = embalhamento.join("&nbsp;");
         }
-        
     }
 
 
@@ -54,14 +54,35 @@ export class Scrambler extends React.Component {
 
             let moveIndex = Math.floor(Math.random() * moves.length);
             let move = moves[moveIndex];
+            console.log(move);
             let lastMoveI = this.state.embaralhado.length - 1;
             
-            if (move === embalhamento[lastMoveI] || move === embalhamento[lastMoveI]+"'" || move === embalhamento[lastMoveI]+"2") {
-                i--;  
+
+            //SE O MOVIMENTO FOR IGUAL AO ANTERIOR, VOLTA O LOOPING
+            if (move.charAt(0) === embalhamento[lastMoveI].charAt(0)) {
+                i--;
+                embalhamento.pop();
+            }  
+            
+            
+            if ( i > 1 && move.charAt(0) === embalhamento[lastMoveI - 2].charAt(0)){
+                i--;
+                embalhamento.pop();
             } else {
                 embalhamento.push(move+'  ');
                 i++;
-            }
+            } 
+
+
+
+            // if (move === embalhamento[lastMoveI] || move === embalhamento[lastMoveI]+"'" || move === embalhamento[lastMoveI]+"2") {
+            //     i--;  
+            //     embalhamento.pop();
+            // } else {
+            //     embalhamento.push(move+'  ');
+            //     i++;
+            // }
+            
             
             if (i === m) {
                 embalhamento.push("</p>")
