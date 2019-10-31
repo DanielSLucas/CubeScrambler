@@ -56,22 +56,28 @@ export class Scrambler extends React.Component {
             let move = moves[moveIndex];
             console.log(move);
             let lastMoveI = this.state.embaralhado.length - 1;
-            
 
-            //SE O MOVIMENTO FOR IGUAL AO ANTERIOR, VOLTA O LOOPING
-            if (move.charAt(0) === embalhamento[lastMoveI].charAt(0)) {
+
+
+
+             // EVITA MOVIMENTOS TAIS COMO "R L R" QUE É IGUAL "R2 L"
+            if ( embalhamento.length > 1 && move.charAt(0) === embalhamento[lastMoveI - 1].charAt(0)){
+                i--;
+                embalhamento.pop()
+                
+             //SE O MOVIMENTO FOR IGUAL AO ANTERIOR, VOLTA O LOOPING
+            } else if (move.charAt(0) === embalhamento[lastMoveI].charAt(0)) {
                 i--;
                 embalhamento.pop();
-            }  
-            
-            
-            if ( i > 1 && move.charAt(0) === embalhamento[lastMoveI - 2].charAt(0)){
-                i--;
-                embalhamento.pop();
+
             } else {
                 embalhamento.push(move+'  ');
                 i++;
-            } 
+            }  
+
+         
+            
+            
 
 
 
